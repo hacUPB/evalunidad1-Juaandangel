@@ -3,127 +3,138 @@
 // juan.angelv@upb.edu.co
 
 (START)
-@KBD
- D=M
- @84  //T//
- D=D-A
- @VERTICAL 
- D;JEQ
- 
-@KBD
- D=M
- @67   //C//
- D=D-A 
- @BORRAR
- D;JEQ
+            @16400
+            D=A
 
- @KBD
- D=M
- @84  //T//
- D=D-A 
- @HORIZONTAL
- D;JEQ
- 
-@START
- 0;JMP
+            @pscreen
+            M=D
 
-(VERTICAL)
-@16400
- D=A
-@dibujo
- M=D 
-@256//candidad de registros a pintar
- D=A
-@cont//contador filas pantalla
- M=D
-@32
- D=A 
-@salto
- M=D
+            @256
+            D=A
 
-@color
-M= 1
- 
- @RECT
- 0;JMP
+            @contador
+            M=D
 
+            @32
+            D=A
+            @contador2
+            M=D
 
-(BORRAR)
-@16384
- D=A
-@dibujo
- M=D 
-@8300
- D=A
-@cont
- M=D
-@1
- D=A 
-@salto
- M=D
+            @4096
+            D=A
+            @inicio
+            M=D
 
-@color
-M = 0
+            @KBD
+            D=M
+            @84
+            D=D-A
+            @LVER
+            D;JEQ
 
-@RECT
- 0;JMP
- 
- 
-(HORIZONTAL)
-@20480//16384 + (128*32)
- D=A
-@dibujo
- M=D 
-@32
- D=A
-@cont
- M=D
-@1
- D=A 
-@salto
- M=D
+            @KBD
+            D=M
+            @67
+            D=D-A
+            @REGIS
+            D;JEQ
 
+            @START
+            0;JMP
+(LVER)
+            @contador
+            D=M
 
-@color
-M= -1
- 
-@RECT
-0;JMP
+            @LHOR
+            D;JEQ
 
+            @256
+            D=A
 
-(RECT)
-@dibujo
- D=M
-@pscreen
- M=D 
- 
+            @pscreen
+            A=M
+            M=D
+            @contador
+            M=M-1
+            @32
+            D=A
+            @pscreen
+            M=M+D
+
+            @LVER
+            0;JMP
+
+(LHOR)
+             @inicio
+             D=M
+
+             @SCREEN
+             A=A+D
+             M = -1
+
+             @inicio
+             M=M+1
+
+             @contador2
+             M=M-1
+             D=M
+             @END
+             D;JEQ
+
+            @LHOR
+            0;JMP
+
+(REGIS)
+            @16384
+            D=A
+            @coord
+            M=D
+            @8192
+            D=A
+            @cont
+            M=D
+            @1
+            D=A
+            @jump
+            M=D
+            @color
+            M=0
+            @MEMO
+            0;JMP
+
+(MEMO)
+            @coord
+            D=M
+            @pscreen
+            M=D
+
 (PAINT)
-@cont//D=cont
- D=M 
- 
- @END
- D;JEQ
- 
-@color
-D=M 
-@pscreen
-A=M 
-M=D 
- 
-@cont
-M=M-1
- 
-@salto
- D=M
- 
-@pscreen
- M=M+D 
- 
-@PAINT
- 0;JMP
- 
+            @cont
+            D=M
+
+            @END
+            D;JEQ
+
+
+
+            @color
+            D=M
+            @pscreen
+            A=M
+            M=D
+
+            @cont
+            M=M-1
+
+            @jump
+            D=M
+
+            @pscreen
+            M=M+D
+
+            @PAINT
+            0;JMP
+
 (END)
- @START
- 0;JMP
-
-
+            @START
+            0;JMP
